@@ -6,6 +6,7 @@ var gGoogleMap;
 var gIdUser = 101;
 
 window.onload = () => {
+     renderTable()
     initMap()
         .then(() => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
@@ -53,6 +54,7 @@ window.onload = () => {
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
+
     return _connectGoogleApi()
         .then(() => {
             console.log('google available');
@@ -75,19 +77,32 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                     locationService.saveUserLocation(gIdUser++, lat, lng, placeName.address_components[1].long_name)
                     renderTable()
                     document.querySelector('.currLoction').innerText = placeName.formatted_address
+                    renderWeather(lat,lng)
                 })
 
             })
         })
 }
 
+function renderWeather(lat,lng){
+    locationService.getWeather(lat,lng)
+    .then(weather=>{
+         document.querySelector('.main-weather').innerText=weather.name
+         document.querySelector('.country').innerText=weather.sys.country
+         document.querySelector('.currWeather').innerText=','+weather.weather[0].description
+         document.querySelector('.temp').innerText=parseFloat((weather.main.temp)-273).toFixed(2)
+         document.querySelector('.min-temp').innerText='temperature from'+parseFloat((weather.main.temp_min)-273).toFixed(2)
+         document.querySelector('.max-temp').innerText='to'+parseFloat((weather.main.temp_max)-273).toFixed(2)+'C,'
 
+    })
+    
+}
 
 
 
 function renderTable() {
     var loctions = utilService.loadFromStorage('locationDB');
-    if (!loctions) return
+    if (!loctions)return
     else {
         var strHtmlS = loctions.map(function(loc) {
             console.log(loc);

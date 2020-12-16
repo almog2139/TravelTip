@@ -6,7 +6,8 @@ export const locationService = {
     saveUserLocation,
     goUserSaveLocation,
     getUserSearch,
-    getPosSelect
+    getPosSelect,
+    getWeather
 }
 
 
@@ -30,9 +31,6 @@ function getPosSelect(lat, lng) {
     return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCaQVlcIeYewnFSmm3xkL2d3HHy9xhYbz4`)
 
     .then(res => res.json())
-        // .then(res => {
-        //     console.log(res.results[0].formatted_address);
-        // })
         .then(res => {
             return res.results[0]
         })
@@ -40,14 +38,14 @@ function getPosSelect(lat, lng) {
 
 }
 
-// function getWeather(lat,lng) {
-//     return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=AIzaSyCaQVlcIeYewnFSmm3xkL2d3HHy9xhYbz4`)
-//         .then((res) => res.json())
-//         .then(weather => {
-//             return weather.
-//         })
-//         .catch((err) => { console.log('Had issues:', err) })
-// }
+function getWeather(lat,lng) {
+    return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=d3f134f728fdff382930f32af7102a4a`)
+        .then((res) => res.json())
+        .then(weather => {
+            return weather
+        })
+        .catch((err) => { console.log('Had issues:', err) })
+}
 
 
 

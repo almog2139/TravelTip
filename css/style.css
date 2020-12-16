@@ -59,5 +59,14 @@ button{
     height: 34px;
 }
 .copy-loc{
-    margin-inline-start: 57vw;
+    margin-inline-start: 67vw;
+}
+.main-nav {
+    align-items: center;
+}
+.weather >* :not(:first-child){
+    display: inline;
+}
+.currWeather{
+    color: skyblue;
 }
