@@ -1,0 +1,39 @@
+body {
+    background-color: #fab472;
+}
+
+.aside>* {
+    width: 457px;
+    height: 200px;
+}
+
+.aside {
+    /* display: flex; */
+    flex-direction: column;
+    gap: 10px;
+}
+
+.weather {
+    background-color: seagreen;
+}
+
+.table-location {
+    background-color: skyblue;
+}
+
+.main-layout {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.search-input {
+    margin-inline-start: 57vw;
+}

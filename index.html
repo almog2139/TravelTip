@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="main-layout">
+    <nav class="main-nav  flex">
+        <h1>TravelTip</h1>
+        
+            <input  class="search-input" type="text" placeholder="Enter Location">
+            <button class="search-btn">Go</button>
+      
+        <button class="my-location">My Location</button>
+        <!-- <button class="btn">Click Me</button> -->
+
+    </nav>
+    <h1>Location:</h1>
+    <h2 class="currLoction"><span></span></h2>
+    <button >Copy Location</button>
+    
+    <div class="main-container flex space-between main-layout">
+
+        <div class="aside flex">
+            <div class="weather"></div>
+            <div class="table-location">
+                <table border="1" class="table-continer">
+                    <thead>
+                        <th>id</th>
+                        <th>lat</th>
+                        <th>lng</th>
+                        <th> place name</th>
+                        <th>delete</th>
+                    </thead>
+                    <tbody class="tbody">
+            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="map" style="width: 50%; height: 410px;"></div>
+    </div>
+    
+
+    <script type="module" src="js/map-controller.js"></script>
+</body>
+
+</html>
