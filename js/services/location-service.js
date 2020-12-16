@@ -5,7 +5,8 @@ export const locationService = {
     removeLocation,
     saveUserLocation,
     goUserSaveLocation,
-    getUserSearch
+    getUserSearch,
+    getPosSelect
 }
 
 
@@ -25,6 +26,20 @@ function getUserSearch(location) {
         .catch((err) => { console.log('Had issues:', err) })
 }
 
+function getPosSelect(lat, lng) {
+    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCaQVlcIeYewnFSmm3xkL2d3HHy9xhYbz4`)
+
+    .then(res => res.json())
+        // .then(res => {
+        //     console.log(res.results[0].formatted_address);
+        // })
+        .then(res => {
+            return res.results[0]
+        })
+
+
+}
+
 // function getWeather(lat,lng) {
 //     return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=AIzaSyCaQVlcIeYewnFSmm3xkL2d3HHy9xhYbz4`)
 //         .then((res) => res.json())
@@ -35,16 +50,19 @@ function getUserSearch(location) {
 // }
 
 
+
 function saveUserLocation(idxUser, lat, lng, placeName) {
     gLocations.push({ idxUser, lat, lng, placeName })
     utilService.saveToStorage('locationDB', gLocations)
 
 }
+
 function removeLocation(Idx) {
 
     gLocations.splice(Idx, 1)
     utilService.saveToStorage('locationDB', gLocations)
 }
+
 function goUserSaveLocation(idx) {
     var lat = gLocations[idx].lat;
     var lng = gLocations[idx].lng;
