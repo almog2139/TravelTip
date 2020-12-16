@@ -4,9 +4,18 @@ console.log('locationService', locationService);
 
 var gGoogleMap;
 var gIdUser = 101;
+var gLat;
+var gLng;
 
 window.onload = () => {
-     renderTable()
+    renderTable()
+    var urlParams = new URLSearchParams(window.location.search)
+    if (urlParams) {
+        console.log(urlParams.get('lat'));
+        console.log(urlParams.get('lng'));
+        // panTo(urlParams.get('lat'), urlParams.get('lng'))
+        // lat = , lng = 
+    }
     initMap()
         .then(() => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
@@ -70,6 +79,8 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                 console.log(ev.latLng.lat(), ev.latLng.lng());
                 var lat = ev.latLng.lat()
                 var lng = ev.latLng.lng();
+                gLat = lat
+                gLng = lng
                 locationService.getPosSelect(lat, lng)
                     // console.log(Promise.resolve(placeName));
 
@@ -77,32 +88,32 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                     locationService.saveUserLocation(gIdUser++, lat, lng, placeName.address_components[1].long_name)
                     renderTable()
                     document.querySelector('.currLoction').innerText = placeName.formatted_address
-                    renderWeather(lat,lng)
+                    renderWeather(lat, lng)
                 })
 
             })
         })
 }
 
-function renderWeather(lat,lng){
-    locationService.getWeather(lat,lng)
-    .then(weather=>{
-         document.querySelector('.main-weather').innerText=weather.name
-         document.querySelector('.country').innerText=weather.sys.country
-         document.querySelector('.currWeather').innerText=','+weather.weather[0].description
-         document.querySelector('.temp').innerText=parseFloat((weather.main.temp)-273).toFixed(2)
-         document.querySelector('.min-temp').innerText='temperature from'+parseFloat((weather.main.temp_min)-273).toFixed(2)
-         document.querySelector('.max-temp').innerText='to'+parseFloat((weather.main.temp_max)-273).toFixed(2)+'C,'
+function renderWeather(lat, lng) {
+    locationService.getWeather(lat, lng)
+        .then(weather => {
+            document.querySelector('.main-weather').innerText = weather.name
+            document.querySelector('.country').innerText = weather.sys.country
+            document.querySelector('.currWeather').innerText = ',' + weather.weather[0].description
+            document.querySelector('.temp').innerText = parseFloat((weather.main.temp) - 273).toFixed(2)
+            document.querySelector('.min-temp').innerText = 'temperature from' + parseFloat((weather.main.temp_min) - 273).toFixed(2)
+            document.querySelector('.max-temp').innerText = 'to' + parseFloat((weather.main.temp_max) - 273).toFixed(2) + 'C,'
 
-    })
-    
+        })
+
 }
 
 
 
 function renderTable() {
     var loctions = utilService.loadFromStorage('locationDB');
-    if (!loctions)return
+    if (!loctions) return
     else {
         var strHtmlS = loctions.map(function(loc) {
             console.log(loc);
@@ -127,6 +138,8 @@ function renderTable() {
     // })
     addDeleteListener()
     addGoLocationListener()
+    onCopyLocation()
+
 }
 
 function addDeleteListener() {
@@ -162,6 +175,14 @@ function addGoLocationListener() {
         })
     })
 
+}
+
+function onCopyLocation() {
+    let elButton = document.querySelector('.copy-loc')
+    elButton.addEventListener('click', (ev) => {
+        var x = locationService.getCopyLocation(gLat, gLng)
+        console.log(x);
+    })
 }
 
 // function onGetUserPos() {

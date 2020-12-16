@@ -7,7 +7,9 @@ export const locationService = {
     goUserSaveLocation,
     getUserSearch,
     getPosSelect,
-    getWeather
+    getWeather,
+    getCopyLocation
+
 }
 
 
@@ -38,7 +40,11 @@ function getPosSelect(lat, lng) {
 
 }
 
-function getWeather(lat,lng) {
+function getCopyLocation(lat, lng) {
+    return `https://almog2139.github.io/TravelTip/?lat=${lat}&lng=${lng}`
+}
+
+function getWeather(lat, lng) {
     return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=d3f134f728fdff382930f32af7102a4a`)
         .then((res) => res.json())
         .then(weather => {
