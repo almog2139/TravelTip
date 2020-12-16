@@ -19,17 +19,20 @@ function getLocations() {
 function getUserSearch(location) {
     return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyCaQVlcIeYewnFSmm3xkL2d3HHy9xhYbz4`)
         .then((res) => res.json())
-        .then(res => {
-            return res.result
+        .then(locatinAddress => {
+            return locatinAddress.results
         })
-        // .then(res => {
-           
-        //     return Promise.resolve(res)
-        // })
         .catch((err) => { console.log('Had issues:', err) })
 }
 
-
+// function getWeather(lat,lng) {
+//     return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=AIzaSyCaQVlcIeYewnFSmm3xkL2d3HHy9xhYbz4`)
+//         .then((res) => res.json())
+//         .then(weather => {
+//             return weather.
+//         })
+//         .catch((err) => { console.log('Had issues:', err) })
+// }
 
 
 function saveUserLocation(idxUser, lat, lng, placeName) {

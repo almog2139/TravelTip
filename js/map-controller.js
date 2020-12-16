@@ -40,15 +40,18 @@ window.onload = () => {
                 console.log('err!!!', err);
             })
     })
-      let btnSearch=document.querySelector('.search-btn')
-      btnSearch.addEventListener('click',(ev)=>{
-          const elInputSearch=document.querySelector('.search-input').value ;
-          var res = locationService.getUserSearch(elInputSearch)
-          console.log(res);
-            // .then(res=>{
-            //     console.log(res);
-            // })
-      })
+    let btnSearch = document.querySelector('.search-btn')
+    btnSearch.addEventListener('click', (ev) => {
+        const elInputSearch = document.querySelector('.search-input').value;
+        locationService.getUserSearch(elInputSearch)
+
+            .then(searchAddress => {
+               
+                 panTo(searchAddress[0].geometry.location.lat, searchAddress[0].geometry.location.lng)
+                 document.querySelector('.currLoction').innerText=searchAddress[0].formatted_address;
+
+            })
+    })
 }
 
 

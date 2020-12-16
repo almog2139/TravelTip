@@ -14,7 +14,11 @@ body {
 }
 
 .weather {
-    background-color: seagreen;
+    flex-direction: column;
+    background-color: white;
+}
+.weather h1{
+    text-align: center;
 }
 
 .table-location {
@@ -35,5 +39,25 @@ body {
 }
 
 .search-input {
+    margin-inline-start: 57vw;
+    background-color: lightgray;
+    border: 1px solid blue;
+    color:white;
+    height: 30px;
+}
+body h1,h2{
+    display: inline;
+}
+thead{
+    background-color: lightgray;
+}
+button{
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+    border: 1px solid blue;
+    height: 34px;
+}
+.copy-loc{
     margin-inline-start: 57vw;
 }
