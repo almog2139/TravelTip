@@ -9,10 +9,14 @@ var gLng;
 
 window.onload = () => {
     renderTable()
+    var goLat = 32.0749831;
+    var goLng = 34.9120554;
     var urlParams = new URLSearchParams(window.location.search)
     if (urlParams) {
-        console.log(urlParams.get('lat'));
-        console.log(urlParams.get('lng'));
+        goLat = urlParams.get('lat')
+        goLng = urlParams.get('lng')
+        console.log();
+        console.log();
         // panTo(urlParams.get('lat'), urlParams.get('lng'))
         // lat = , lng = 
     }
