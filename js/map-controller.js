@@ -1,4 +1,3 @@
-
 import { locationService } from './services/location-service.js'
 import { utilService } from './services/util-service.js'
 console.log('locationService', locationService);
@@ -40,15 +39,15 @@ window.onload = () => {
                 console.log('err!!!', err);
             })
     })
-      let btnSearch=document.querySelector('.search-btn')
-      btnSearch.addEventListener('click',(ev)=>{
-          const elInputSearch=document.querySelector('.search-input').value ;
-          var res = locationService.getUserSearch(elInputSearch)
-          console.log(res);
-            // .then(res=>{
-            //     console.log(res);
-            // })
-      })
+    let btnSearch = document.querySelector('.search-btn')
+    btnSearch.addEventListener('click', (ev) => {
+        const elInputSearch = document.querySelector('.search-input').value;
+        locationService.getUserSearch(elInputSearch)
+
+        // .then(res => {
+        //     res = res.
+        // })
+    })
 }
 
 
@@ -59,9 +58,9 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
             console.log('google available');
             gGoogleMap = new google.maps.Map(
                 document.querySelector('#map'), {
-                center: { lat, lng },
-                zoom: 15
-            })
+                    center: { lat, lng },
+                    zoom: 15
+                })
             addMarker({ lat, lng });
             console.log('Map!', gGoogleMap);
 
@@ -69,14 +68,16 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                 console.log(ev.latLng.lat(), ev.latLng.lng());
                 var lat = ev.latLng.lat()
                 var lng = ev.latLng.lng();
-                const placeName = prompt('place name?')
-                locationService.saveUserLocation(gIdUser++, lat, lng, placeName)
-                // saveToStorage(KeyLocation, gLoctions)
+                locationService.getPosSelect(lat, lng)
+                    // console.log(Promise.resolve(placeName));
 
-                renderTable()
+                .then(placeName => {
+                    locationService.saveUserLocation(gIdUser++, lat, lng, placeName.address_components[1].long_name)
+                    renderTable()
+                    document.querySelector('.currLoction').innerText = placeName.formatted_address
+                })
 
-            });
-
+            })
         })
 }
 
@@ -88,7 +89,7 @@ function renderTable() {
     var loctions = utilService.loadFromStorage('locationDB');
     if (!loctions) return
     else {
-        var strHtmlS = loctions.map(function (loc) {
+        var strHtmlS = loctions.map(function(loc) {
             console.log(loc);
             return `
         <tr>
@@ -112,6 +113,7 @@ function renderTable() {
     addDeleteListener()
     addGoLocationListener()
 }
+
 function addDeleteListener() {
     // document.querySelector('.btnDelete').addEventListener('click',(ev)=>{
 
@@ -127,6 +129,7 @@ function addDeleteListener() {
     })
 
 }
+
 function addGoLocationListener() {
 
     let buttons = document.querySelectorAll('.btnGetLocation')
@@ -140,7 +143,7 @@ function addGoLocationListener() {
             initMap(lat, lng)
 
             renderTable()
-            // document.querySelector.innerText
+                // document.querySelector.innerText
         })
     })
 
@@ -204,6 +207,3 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
-
-
-
