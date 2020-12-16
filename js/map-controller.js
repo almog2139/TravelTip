@@ -23,26 +23,32 @@ window.onload = () => {
             console.log('err!!!', err);
         })
 
-    document.querySelector('.search-btn').addEventListener('click', (ev) => {
-        console.log('Aha!', ev.target);
-        panTo(35.6895, 139.6917);
-    })
+    // document.querySelector('.search-btn').addEventListener('click', (ev) => {
+    //     console.log('Aha!', ev.target);
+    //     panTo(35.6895, 139.6917);
+    // })
     let button = document.querySelector('.my-location')
     button.addEventListener('click', (ev) => {
         getUserPosition()
             .then(pos => {
-                console.log('User position is:', pos.coords);
+                console.log('User position is:', pos);
                 console.log('User lat:', pos.coords.latitude);
                 console.log('User lng:', pos.coords.longitude);
-                initMap(lat, lng)
+                panTo(pos.coords.latitude, pos.coords.longitude)
             })
             .catch(err => {
                 console.log('err!!!', err);
             })
-        
-         
-
     })
+      let btnSearch=document.querySelector('.search-btn')
+      btnSearch.addEventListener('click',(ev)=>{
+          const elInputSearch=document.querySelector('.search-input').value ;
+          var res = locationService.getUserSearch(elInputSearch)
+          console.log(res);
+            // .then(res=>{
+            //     console.log(res);
+            // })
+      })
 }
 
 
@@ -134,6 +140,7 @@ function addGoLocationListener() {
             initMap(lat, lng)
 
             renderTable()
+            // document.querySelector.innerText
         })
     })
 
