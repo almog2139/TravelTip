@@ -1,21 +1,21 @@
 body {
-    background-color: #fab472;
+    /* background-color: #fab472; */
 }
 
-.aside>* {
-    width: 457px;
-    height: 200px;
-}
+
 
 .aside {
     /* display: flex; */
     flex-direction: column;
     gap: 10px;
+    
 }
 
 .weather {
     flex-direction: column;
-    background-color: white;
+    background-color:  rgb(96, 109, 121);
+    width: 457px;
+    height: 200px;
 }
 .weather h1{
     text-align: center;
@@ -23,6 +23,8 @@ body {
 
 .table-location {
     background-color: skyblue;
+    width: 457px;
+    
 }
 
 .main-layout {
@@ -54,7 +56,7 @@ thead{
 button{
     cursor: pointer;
     background-color: gray;
-    color: white;
+    color: rgb(255, 255, 255);
     border: 1px solid blue;
     height: 34px;
 }
@@ -65,8 +67,24 @@ button{
     align-items: center;
 }
 .weather >* :not(:first-child){
-    display: inline;
+    align-items: center;
 }
 .currWeather{
     color: skyblue;
+}
+.main-weather{
+    color: #fab472;
+}
+.country{
+    color: #fab472;
+}
+.temp{
+    background-color: grey;
+    width: 10px;
+    height: 5px;
+    border-radius: 40%;
+}
+.main-nav{
+    background-color: darkblue;
+    color: white;
 }

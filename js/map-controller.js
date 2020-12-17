@@ -35,6 +35,15 @@ window.onload = () => {
                 console.log('User lat:', pos.coords.latitude);
                 console.log('User lng:', pos.coords.longitude);
                 panTo(pos.coords.latitude, pos.coords.longitude)
+                
+                locationService.getPosSelect(pos.coords.latitude, pos.coords.longitude)
+                .then(pos=>{
+                         document.querySelector('.currLoction').innerText = pos.formatted_address
+                        console.log(pos);
+                })
+                // locationService.getWeather(pos.coords.latitude, pos.coords.longitude)
+                // .then(res=>renderWeather())
+                renderWeather(pos.coords.latitude, pos.coords.longitude)
             })
             .catch(err => {
                 console.log('err!!!', err);
@@ -88,11 +97,12 @@ function renderWeather(lat,lng){
     locationService.getWeather(lat,lng)
     .then(weather=>{
          document.querySelector('.main-weather').innerText=weather.name
-         document.querySelector('.country').innerText=weather.sys.country
+         document.querySelector('.country').innerText=weather.sys.country+', '
          document.querySelector('.currWeather').innerText=','+weather.weather[0].description
-         document.querySelector('.temp').innerText=parseFloat((weather.main.temp)-273).toFixed(2)
-         document.querySelector('.min-temp').innerText='temperature from'+parseFloat((weather.main.temp_min)-273).toFixed(2)
-         document.querySelector('.max-temp').innerText='to'+parseFloat((weather.main.temp_max)-273).toFixed(2)+'C,'
+         document.querySelector('.temp').innerText=parseFloat((weather.main.temp)-273).toFixed(2)+' C°'
+         document.querySelector('.min-temp').innerText='temperature from '+parseFloat((weather.main.temp_min)-273).toFixed(2)
+         document.querySelector('.max-temp').innerText='to '+parseFloat((weather.main.temp_max)-273).toFixed(2)+' C°'
+         document.querySelector('.wind').innerText=' ,wind '+weather.wind.speed+' m/s'
 
     })
     
@@ -163,29 +173,6 @@ function addGoLocationListener() {
     })
 
 }
-
-// function onGetUserPos() {
-
-//     let buttons = document.querySelector('.my-location')
-//     button.addEventListener('click', (ev) => {
-//         getUserPosition()
-//             .then(pos => {
-//                 console.log('User position is:', pos.coords);
-//                 console.log('User lat:', pos.coords.latitude);
-//                 console.log('User lng:', pos.coords.longitude);
-//             })
-//             .catch(err => {
-//                 console.log('err!!!', err);
-//             })
-//         initMap(lat, lng)
-
-//     })
-
-
-// }
-
-
-
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
