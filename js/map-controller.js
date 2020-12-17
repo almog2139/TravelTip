@@ -8,21 +8,16 @@ var gLat;
 var gLng;
 
 window.onload = () => {
+    // var urlParams = new URLSearchParams(window.location.search)
+    // var goLat = (urlParams) ? urlParams.get('lat') : 32.0749831
+    // var goLng = (urlParams) ? urlParams.get('lng') : 34.9120554;
     renderTable()
-    var goLat = 32.0749831;
-    var goLng = 34.9120554;
-    var urlParams = new URLSearchParams(window.location.search)
-    if (urlParams) {
-        goLat = urlParams.get('lat')
-        goLng = urlParams.get('lng')
-        console.log();
-        console.log();
-        // panTo(urlParams.get('lat'), urlParams.get('lng'))
-        // lat = , lng = 
-    }
     initMap()
         .then(() => {
-            addMarker({ lat: 32.0749831, lng: 34.9120554 });
+            return setSendLocation()
+        })
+        .then((res) => {
+            addMarker({ lat: res.lat, lng: res.lng });
         })
         .catch(console.log('INIT MAP ERROR'));
 
@@ -36,10 +31,6 @@ window.onload = () => {
             console.log('err!!!', err);
         })
 
-    // document.querySelector('.search-btn').addEventListener('click', (ev) => {
-    //     console.log('Aha!', ev.target);
-    //     panTo(35.6895, 139.6917);
-    // })
     let button = document.querySelector('.my-location')
     button.addEventListener('click', (ev) => {
         getUserPosition()
@@ -48,14 +39,12 @@ window.onload = () => {
                 console.log('User lat:', pos.coords.latitude);
                 console.log('User lng:', pos.coords.longitude);
                 panTo(pos.coords.latitude, pos.coords.longitude)
-                
+
                 locationService.getPosSelect(pos.coords.latitude, pos.coords.longitude)
-                .then(pos=>{
-                         document.querySelector('.currLoction').innerText = pos.formatted_address
+                    .then(pos => {
+                        document.querySelector('.currLoction').innerText = pos.formatted_address
                         console.log(pos);
-                })
-                // locationService.getWeather(pos.coords.latitude, pos.coords.longitude)
-                // .then(res=>renderWeather())
+                    })
                 renderWeather(pos.coords.latitude, pos.coords.longitude)
             })
             .catch(err => {
@@ -66,10 +55,6 @@ window.onload = () => {
     btnSearch.addEventListener('click', (ev) => {
         const elInputSearch = document.querySelector('.search-input').value;
         locationService.getUserSearch(elInputSearch)
-
-        // .then(res => {
-        //     res = res.
-        // })
     })
 }
 
@@ -81,13 +66,13 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
         .then(() => {
             console.log('google available');
             gGoogleMap = new google.maps.Map(
-                document.querySelector('#map'), {
-                    center: { lat, lng },
-                    zoom: 15
-                })
-            addMarker({ lat, lng });
-            console.log('Map!', gGoogleMap);
+                    document.querySelector('#map'), {
+                        center: { lat, lng },
+                        zoom: 15
+                    })
+                // console.log('Map!', gGoogleMap);
 
+            // addMarker({ lat, lng });
             gGoogleMap.addListener("click", (ev) => {
                 console.log(ev.latLng.lat(), ev.latLng.lng());
                 var lat = ev.latLng.lat()
@@ -101,6 +86,7 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                     locationService.saveUserLocation(gIdUser++, lat, lng, placeName.address_components[1].long_name)
                     renderTable()
                     document.querySelector('.currLoction').innerText = placeName.formatted_address
+                    addMarker({ lat: lat, lng: lng });
                     renderWeather(lat, lng)
                 })
 
@@ -198,7 +184,9 @@ function onCopyLocation() {
     })
 }
 
-
+function clearMarkers() {
+    setMapOnAll(null);
+}
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
@@ -234,4 +222,11 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+
+function setSendLocation() {
+    var urlParams = new URLSearchParams(window.location.search)
+    var goLat = (gLat) ? urlParams.get('lat') : 32.0749831
+    var goLng = (gLng) ? urlParams.get('lng') : 34.9120554;
+    return { lat: goLat, lng: goLng }
 }
